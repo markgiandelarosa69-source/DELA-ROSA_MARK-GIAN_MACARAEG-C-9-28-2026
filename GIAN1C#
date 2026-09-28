@@ -1,0 +1,156 @@
+‎//grid - baase movement
+‎//attach this to a character gameobject.good for roquelikes puzzle games,tactics games.
+‎//the character snaps to whole tile position rathen than continiuosly.
+‎
+‎using unityEngine;
+‎
+‎public class gridMovement:MonoBehavior
+‎{
+‎    public float tilesSize = 1.0f; //size of one grid cell
+‎    public float moveSpeed = 10f
+‎
+‎        private vector3 targetPosition;
+‎        private bool is Moving = false;
+‎
+‎        void Start()
+‎        {
+‎            //snap starting position to the grid so everything so lines up targetposition
+‎        }
+‎        void update()
+‎        {
+‎            if (!isMoving)
+‎            {
+‎
+‎                HandleInput();
+‎            }
+‎            else{
+‎                 //Smothly
+‎   
+‎                {
+‎
+‎                transform.position = targetPosition;
+‎                    isMoving = false;
+‎
+‎                }
+‎
+‎            }
+‎
+‎        }
+‎
+‎    void HandleInput()
+‎    {
+‎        Vector3 direction =Vector.zero;
+‎
+‎        if(Input.GetKeyDown(keyCode.W)) direction = Vector3.up;
+‎        else if (Input.GetKeyDown(KeyCode. S)) direction =
+‎            Vector3.down;
+‎        else if (Input.GetKeydown(KeyCode. A)) direction =
+‎            Vector3.left;
+‎        else if (Input.GetKeyDown(KeyCode. D)) direction =
+‎            Vector3.right;
+‎
+‎        if(direction !=Vector3.zero)
+‎        {
+‎            targetPosition = transform.position + direction * tileSize;
+‎            isMoving = true;
+‎        }
+‎    }
+‎    Vector3 SnapToGrid(Vector3 pos)
+‎    {
+‎        return new Vector3(
+‎            Mathf.Round(pos.x / tileSize) * tileSize,
+‎            Mathf.Round(pos.y / tileSize) * tileSize,
+‎            pos.z
+‎        );
+‎    }
+‎
+‎    //FREE (VECTOR BASED MOVEMENT
+‎
+‎    using UnityEngine;
+‎
+‎    public class FreeMovement : MonoBehaviour
+‎    {
+‎        public float moveSpeed = sf;
+‎
+‎        void Update()
+‎        {
+‎            //Getaxis gives smooth values between -1 and 1 (supports keyboard AND controller)
+‎        float horizontal = Input.GetAxis("Horizontal"); // A/D or
+‎            left/right arrows
+‎                float horizontal = Input.GetAxis("Vertical"); // w/s or up/down arrows
+‎
+‎            Vector3 direction = new Vector3(horizontal, vertical, 0);
+‎            //mormalize
+‎
+‎            if(direction.magnitude>1f)
+‎            {
+‎                direction.Normalize()
+‎                   
+‎            }
+‎            transform.position += direction *
+‎    moveSpeed * Time.deltaTime;
+‎        }
+‎           
+‎    }
+‎
+‎
+‎
+‎
+‎   
+‎
+‎   
+‎// PHYSIC-BASED MOVEMENT
+‎
+‎
+‎    using UnityEngine;
+‎    [ReruireComponent(typeof(Rigidbody2D))]
+‎
+‎    public class PhysicsMovement : MonoBehaviour
+‎    {
+‎       publicfloat movement = 10f;
+‎        publicfloat jumpForce = 7f;
+‎        publicfloat maxspeed = 6f;
+‎
+‎
+‎        private RigiBody2d rb;
+‎        private bool isGrounded = false;
+‎
+‎        void Start()
+‎        {
+‎            rb = GetComponent<Rigidbody2D>()
+‎        }
+‎        void Update()
+‎        }
+‎
+‎    // read input in update
+‎    if(input.GetKeyDown.(KeyCode.Space)  && isGrounded)
+‎    {
+‎        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+‎    }
+‎}
+‎     void FixeUpdate( )
+‎     {
+‎         //Physic change
+‎
+‎         //clamp
+‎         if (Mathf.Abs(rb.velosity.x)> maxSpeed)
+‎    {    
+‎             rb.velosity = newVector2(Mathf.Sign(rb.velosity.x))  *maxspeed, rb.velosity.y                
+‎    }
+‎}
+‎
+‎     void OnCollisionEnter2D(Collision2D collision)
+‎     {
+‎         if(collision.gameObject.Comparetag("Ground"))
+‎         {
+‎             isGrounded = true;
+‎         }
+‎     }
+‎void OnCollisionExit2d(Collision2D collision)
+‎  {
+‎    if(collision.gameObject.compareTag("Ground"))
+‎    {
+‎        isGrounded = false;
+‎    }
+‎  }
+‎}
